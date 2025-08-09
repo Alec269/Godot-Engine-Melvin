@@ -16,8 +16,11 @@ trim_trailing_whitespace = false
 end_of_line = lf
 [.gitattributes]
 end_of_line = lf
+<<<<<<< HEAD
 [.gitignore]
 end_of_line = lf
+=======
+>>>>>>> refs/remotes/origin/master
 
 [{*.py,SConstruct,SCsub}]
 indent_style = space

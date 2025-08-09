@@ -33,8 +33,30 @@ mailmap.txt
 ### `.gitattributes`
 
 **At line 1**
+**At line 1**
 
 ```
+# Properly detect languages on Github
+*.h linguist-language=C++
+*.inc linguist-language=C++
+thirdparty/* linguist-vendored
+
+# Default to CRLF for text files (matching .editorconfig)
+* text eol=crlf
+
+# Force LF for files that MUST be LF (shell scripts, some config files)
+*.sh text eol=lf
+*.bash text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Windows-specific files (explicitly CRLF)
+*.bat text eol=crlf
+*.sln text eol=crlf
+*.csproj text eol=crlf
+misc/msvs/* text eol=crlf
+
+# Test files where EOL matters - leave as-is
 # Properly detect languages on Github
 *.h linguist-language=C++
 *.inc linguist-language=C++
@@ -80,9 +102,32 @@ misc/msvs/* text eol=crlf
 
 ```
 
+# Binary files (should never be converted)
+*.icns binary
+*.ico binary
+*.jar binary
+*.png binary
+*.ttf binary
+*.tza binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+
+
+```
+
 ### `.editorconfig`
 
 **at line 5**
+```toml
 ```toml
 end_of_line = crlf
 indent_size = 3
