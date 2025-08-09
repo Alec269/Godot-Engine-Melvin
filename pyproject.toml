@@ -46,7 +46,7 @@ enable-colors = true
 write-changes = true
 check-hidden = true
 quiet-level = 3
-builtin = ["clear", "rare", "en-US_to_en-GB"]
+builtin = ["clear", "rare"]
 skip = [
 	".mailmap",
 	"*.desktop",
@@ -90,4 +90,6 @@ ignore-words-list = [
 	"textin",
 	"thirdparty",
 	"vai",
+	"centre",
+	"recognise",
 ]

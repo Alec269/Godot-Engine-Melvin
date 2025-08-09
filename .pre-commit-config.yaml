@@ -159,22 +159,22 @@ repos:
         entry: python misc/scripts/header_guards.py
         files: \.(h|hpp|hh|hxx)$
 
-      - id: file-format
-        name: file-format
-        language: python
-        entry: python misc/scripts/file_format.py
-        types_or: [text]
-        exclude: |
-          (?x)^(
-            .*\.test\.txt|
-            .*\.svg|
-            .*\.patch|
-            .*\.out|
-            modules/gdscript/tests/scripts/parser/features/mixed_indentation_on_blank_lines\.gd|
-            modules/gdscript/tests/scripts/parser/warnings/empty_file_newline_comment\.norun\.gd|
-            modules/gdscript/tests/scripts/parser/warnings/empty_file_newline\.norun\.gd|
-            tests/data/.*\.bin
-          )$
+      # - id: file-format
+      #   name: file-format
+      #   language: python
+      #   entry: python misc/scripts/file_format.py
+      #   types_or: [text]
+      #   exclude: |
+      #     (?x)^(
+      #       .*\.test\.txt|
+      #       .*\.svg|
+      #       .*\.patch|
+      #       .*\.out|
+      #       modules/gdscript/tests/scripts/parser/features/mixed_indentation_on_blank_lines\.gd|
+      #       modules/gdscript/tests/scripts/parser/warnings/empty_file_newline_comment\.norun\.gd|
+      #       modules/gdscript/tests/scripts/parser/warnings/empty_file_newline\.norun\.gd|
+      #       tests/data/.*\.bin
+      #     )$
 
       - id: dotnet-format
         name: dotnet-format

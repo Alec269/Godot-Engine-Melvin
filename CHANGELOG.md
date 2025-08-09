@@ -32,29 +32,73 @@ mailmap.txt
 
 ### `.gitattributes`
 
-**At line 6**
+**At line 1**
 
 ```
-#Normalize EOL for all files that Git considers text files
-* text=auto eol=crlf
-# Except for Windows-only / Visual Studio files
-*.bat eol=crlf
-*.sln eol=crlf
-*.csproj eol=crlf
-misc/msvs/* eol=crlf
-# And some test files where the EOL matters
+# Properly detect languages on Github
+*.h linguist-language=C++
+*.inc linguist-language=C++
+thirdparty/* linguist-vendored
+
+# Default to CRLF for text files (matching .editorconfig)
+* text eol=crlf
+
+# Force LF for files that MUST be LF (shell scripts, some config files)
+*.sh text eol=lf
+*.bash text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Windows-specific files (explicitly CRLF)
+*.bat text eol=crlf
+*.sln text eol=crlf
+*.csproj text eol=crlf
+misc/msvs/* text eol=crlf
+
+# Test files where EOL matters - leave as-is
 *.test.txt -text
+
+# Binary files (should never be converted)
+*.icns binary
+*.ico binary
+*.jar binary
+*.png binary
+*.ttf binary
+*.tza binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+
+
 ```
-*because of my edits the last one could break*
 
 ### `.editorconfig`
 
 **at line 5**
-```
+```toml
 end_of_line = crlf
 indent_size = 3
 indent_style = tab
 ```
+
+**At line 15**
+```toml
+[*.sh]
+end_of_line = lf
+[.gitattributes]
+end_of_line = lf
+[.gitignore]
+end_of_line = lf
+```
+
 ### `AUTHORS.md`
 
 **At line 32**
@@ -65,6 +109,24 @@ indent_style = tab
 	 Alec Benjamin (Alec269)
 
 ```
+
+### `pyproject.toml`
+
+**Line 49**
+
+```
+builtin = ["clear", "rare"]
+```
+
+**Line 93**
+```
+	"centre",
+	"recognise",
+```
+
+### `.pre-commit-config.yaml`
+**Commented out lines 162 to 177**
+
 
 ## <code style="color : lightblue">Code Files</code>
 **Changed File EOL in**  
@@ -602,7 +664,98 @@ main "$@"
 
 ```
 
+### `misc\scripts\file_format.py`
 
 
 
+**At line 57** [commented out all else]
+```py
 
+import sys
+import os
+
+if len(sys.argv) < 2:
+    print("Invalid usage of file_format.py, it should be called with a path to one or multiple files.")
+    sys.exit(1)
+
+BOM = b"\xef\xbb\xbf"
+changed = []
+invalid = []
+
+def should_use_lf(file_path):
+    """Determine if a file should use LF line endings based on your requirements."""
+    file_lower = file_path.lower()
+    filename = os.path.basename(file_path)
+
+    # Force LF for these specific files and extensions
+    lf_files = [
+        '.gitignore',
+        '.gitattributes'
+    ]
+
+    lf_extensions = [
+        '.sh',
+        '.bash'
+    ]
+
+    # Check for specific filenames
+    if filename in lf_files:
+        return True
+
+    # Check for extensions
+    for ext in lf_extensions:
+        if file_lower.endswith(ext):
+            return True
+
+    return False
+
+for file in sys.argv[1:]:
+    try:
+        with open(file, "rt", encoding="utf-8") as f:
+            original = f.read()
+    except UnicodeDecodeError:
+        invalid.append(file)
+        continue
+
+    if original == "":
+        continue
+
+    # Determine line ending based on your rules
+    if should_use_lf(file):
+        EOL = "\n"
+    else:
+        EOL = "\r\n"
+
+    # Handle BOM (only for .csproj and .sln files)
+    WANTS_BOM = file.endswith((".csproj", ".sln"))
+
+    # Process the file content
+    revamp = EOL.join([line.rstrip("\n\r\t ") for line in original.splitlines(True)]).rstrip(EOL) + EOL
+    new_raw = revamp.encode(encoding="utf-8")
+
+    # Handle BOM
+    if not WANTS_BOM and new_raw.startswith(BOM):
+        new_raw = new_raw[len(BOM) :]
+    elif WANTS_BOM and not new_raw.startswith(BOM):
+        new_raw = BOM + new_raw
+
+    # Read the current file content
+    with open(file, "rb") as f_read:
+        old_raw = f_read.read()
+
+    # Only write if there are changes
+    if old_raw != new_raw:
+        changed.append(file)
+        with open(file, "wb") as f_write:
+            f_write.write(new_raw)
+
+if changed:
+    for file in changed:
+        print(f"FIXED: {file}")
+
+if invalid:
+    for file in invalid:
+        print(f"REQUIRES MANUAL CHANGES: {file}")
+    sys.exit(1)
+
+```

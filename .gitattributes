@@ -3,21 +3,39 @@
 *.inc linguist-language=C++
 thirdparty/* linguist-vendored
 
-# Normalize EOL for all files that Git considers text files
-* text=auto eol=crlf
-# Except for Windows-only / Visual Studio files
-*.bat eol=crlf
-*.sln eol=crlf
-*.csproj eol=crlf
-misc/msvs/* eol=crlf
-# And some test files where the EOL matters
+# Default to CRLF for text files (matching .editorconfig)
+* text eol=crlf
+
+# Force LF for files that MUST be LF (shell scripts, some config files)
+*.sh text eol=lf
+*.bash text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+
+# Windows-specific files (explicitly CRLF)
+*.bat text eol=crlf
+*.sln text eol=crlf
+*.csproj text eol=crlf
+misc/msvs/* text eol=crlf
+
+# Test files where EOL matters - leave as-is
 *.test.txt -text
 
-# The above only works properly for Git 2.10+, so for older versions
-# we need to manually list the binary files we don't want modified.
+# Binary files (should never be converted)
 *.icns binary
 *.ico binary
 *.jar binary
 *.png binary
 *.ttf binary
 *.tza binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
