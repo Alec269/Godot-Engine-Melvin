@@ -35,8 +35,23 @@ mailmap.txt
 **At line 6**
 
 ```
+# Force LF for files that MUST be LF (shell scripts, some config files)
+*.sh text eol=lf
+*.bash text eol=lf
+.gitignore text eol=lf
+.gitattributes text eol=lf
+# Everything else can use CRLF
+*.md text
+*.txt text
+*.yaml text
+*.yml text
+*.json text
+*.cpp text
+*.h text
+*.py text
+
 #Normalize EOL for all files that Git considers text files
-* text=auto eol=crlf
+* text=auto
 # Except for Windows-only / Visual Studio files
 *.bat eol=crlf
 *.sln eol=crlf
@@ -60,6 +75,8 @@ indent_style = tab
 ```toml
 [*.sh]
 end_of_line = lf
+[.gitattributes]
+end_of_line = lf
 ```
 
 ### `AUTHORS.md`
@@ -72,6 +89,16 @@ end_of_line = lf
 	 Alec Benjamin (Alec269)
 
 ```
+
+### `pyproject.toml`
+
+**Line 49**
+```
+builtin = ["clear", "rare"]
+ignore-words-list = ["colour", "centre", "recognise"]
+```
+
+
 
 ## <code style="color : lightblue">Code Files</code>
 **Changed File EOL in**  
