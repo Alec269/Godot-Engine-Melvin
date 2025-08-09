@@ -85,11 +85,11 @@ Ref<Script> GDScriptLanguage::make_template(const String &p_template, const Stri
 
 	String processed_template = p_template;
 
-#ifdef TOOLS_ENABLED
-	const bool type_hints = EditorSettings::get_singleton()->get_setting("text_editor/completion/add_type_hints");
-#else
-	const bool type_hints = true;
-#endif
+	#ifdef TOOLS_ENABLED
+		const bool type_hints = EditorSettings::get_singleton()->get_setting("text_editor/completion/add_type_hints");
+		#else
+		const bool type_hints = true;
+ 	#endif
 
 	if (!type_hints) {
 		processed_template = processed_template.replace(": int", "")

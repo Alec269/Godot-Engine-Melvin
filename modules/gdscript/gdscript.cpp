@@ -3096,10 +3096,27 @@ void ResourceFormatLoaderGDScript::get_classes_used(const String &p_path, HashSe
 			continue;
 		}
 
+		//default
+		// int insert_idx = 0;
+		// for (int i = 0; i < current.start_line - 1; i++) {
+		// 	insert_idx = source.find("\n", insert_idx) + 1;
+		// }
+		//#custom
 		int insert_idx = 0;
 		for (int i = 0; i < current.start_line - 1; i++) {
-			insert_idx = source.find("\n", insert_idx) + 1;
+			// Look for both CRLF and LF
+			int lf_pos = source.find("\n", insert_idx);
+			int crlf_pos = source.find("\r\n", insert_idx);
+
+			if (crlf_pos != -1 && (lf_pos == -1 || crlf_pos < lf_pos)) {
+				insert_idx = crlf_pos + 2; // Skip \r\n
+			} else if (lf_pos != -1) {
+				insert_idx = lf_pos + 1; // Skip \n
+			} else {
+				break; // No more line endings found
+			}
 		}
+
 		// Insert the "cursor" character, needed for the lookup to work.
 		const String source_with_cursor = source.insert(insert_idx + current.start_column, String::chr(0xFFFF));
 

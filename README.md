@@ -1,3 +1,86 @@
+# Godot Engine Melvin 🎮
+
+> **A custom Godot 4.4.1 build with Windows CRLF line ending support**
+
+## 📋 Overview
+
+This is a modified version of **Godot Engine 4.4.1** that generates and preserves **CRLF line endings** on Windows. This build was created to support legacy Windows toolsets and CI systems that require CRLF line endings for proper operation.
+
+## ✨ Features
+
+- ✅ **CRLF Script Generation**: New C# scripts are created with Windows-style line endings
+- ✅ **Line Ending Preservation**: Projects maintain CRLF endings during runtime
+- ✅ **External Editor Support**: Works seamlessly with VS Code and other external editors
+- ⚠️ **Built-in Editor Limitation**: Internal script editor still saves as LF (help wanted!)
+
+## 🚀 Installation
+
+### Step 1: Download
+Download the latest release from the [Releases](../../releases) page.
+
+### Step 2: Install NuGet Packages
+The custom build includes modified .NET packages that need to be installed locally.
+
+1. **Open PowerShell/Windows Terminal** in the Godot installation directory
+2. **Run the following commands**:
+
+```powershell
+dotnet nuget push Godot.NET.Sdk.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
+dotnet nuget push Godot.SourceGenerators.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
+dotnet nuget push GodotSharp.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
+dotnet nuget push GodotSharpEditor.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
+```
+
+3. **Verify Installation**: Check that packages were installed successfully
+```powershell
+Test-Path "$env:USERPROFILE\.nuget\packages\godot.net.sdk\4.4.1-melvin"
+```
+
+## 🎯 Use Cases
+
+Perfect for teams that:
+- Use legacy Windows build scripts requiring CRLF
+- Have CI/CD pipelines expecting Windows line endings
+- Work with Windows-specific file processing tools
+- Need consistent line endings across Windows development environments
+
+## 🐛 Known Issues
+
+- **Built-in script editor** still saves files with LF line endings
+- **Windows only** - These modifications are Windows-specific
+
+## 🤝 Contributing
+
+Found a way to fix the built-in editor line ending issue? Contributions welcome! Please open an issue or PR.
+
+## 📄 License
+
+This modified version maintains the same **MIT License** as the original Godot Engine.
+
+## 🙏 Credits
+
+- **Original Godot Engine**: Created by the amazing [Godot community](https://godotengine.org)
+- **CRLF Modifications**: Custom patches for Windows line ending compatibility
+- **Inspiration**: Built to support legacy Windows development workflows
+
+---
+
+## ⚠️ Disclaimer
+
+- This is an unofficial, modified version of Godot Engine. For official support and the standard engine, please visit [godotengine.org](https://godotengine.org).
+
+- Among the markdown files `CHANGELOG.md`, `README.md` and
+  `AUTHORS.md` were edited and are relevant to this repository.
+  All other markdown files are for the official Godot Project.
+
+---
+
+### Original Godot Engine README
+
+
+
+
+
 # Godot Engine
 
 <p align="center">

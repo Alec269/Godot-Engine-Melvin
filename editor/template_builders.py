@@ -34,7 +34,8 @@ def parse_template(inherits, source, delimiter):
         if script_template["name"] == "":
             script_template["name"] = os.path.splitext(os.path.basename(source))[0].replace("_", " ").title()
         script_template["script"] = (
-            script_template["script"].replace('"', '\\"').lstrip().replace("\n", "\\n").replace("\t", "_TS_")
+            # script_template["script"].replace('"', '\\"').lstrip().replace("\n", "\\n").replace("\t", "_TS_")
+            script_template["script"].replace('"', '\\"').lstrip().replace("\r\n", "\\r\\n").replace("\n", "\\r\\n").replace("\t", "_TS_")
         )
         return (
             f'{{ String("{script_template["inherits"]}"), '

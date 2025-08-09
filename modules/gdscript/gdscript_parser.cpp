@@ -362,7 +362,9 @@ Error GDScriptParser::parse(const String &p_source_code, const String &p_script_
 
 	if (p_for_completion) {
 		// Remove cursor sentinel char.
-		const Vector<String> lines = p_source_code.split("\n");
+		// FIX - Handle both CRLF and LF:
+		String normalized_source = p_source_code.replace("\r\n", "\n");
+		const Vector<String> lines = normalized_source.split("\n");
 		cursor_line = 1;
 		cursor_column = 1;
 		for (int i = 0; i < lines.size(); i++) {
@@ -3831,12 +3833,20 @@ static String _process_doc_line(const String &p_line, const String &p_text, cons
 	if (!p_text.is_empty()) {
 		if (r_state == DOC_LINE_NORMAL) {
 			if (p_text.ends_with("[/codeblock]")) {
+			#ifdef WINDOWS_ENABLED
+				line_join = "\r\n"; //for windows
+			#else
 				line_join = "\n";
+			#endif
 			} else if (!p_text.ends_with("[br]")) {
 				line_join = " ";
 			}
 		} else {
+		#ifdef WINDOWS_ENABLED
+			line_join = "\r\n";
+		#else
 			line_join = "\n";
+		#endif
 		}
 	}
 
@@ -3866,13 +3876,27 @@ static String _process_doc_line(const String &p_line, const String &p_text, cons
 					r_state = DOC_LINE_IN_CODE;
 				} else if (tag == "codeblock" || tag.begins_with("codeblock ")) {
 					if (lb_pos == 0) {
-						line_join = "\n";
+                  // line_join = "\n";
+					//#custom
+						#ifdef WINDOWS_ENABLED
+							line_join = "\r\n";
+						#else
+							line_join = "\n";
+						#endif
 					} else {
-						result += line.substr(buffer_start, lb_pos - buffer_start) + '\n';
+    					#ifdef WINDOWS_ENABLED
+        					result += line.substr(buffer_start, lb_pos - buffer_start) + "\r\n";
+    					#else
+        					result += line.substr(buffer_start, lb_pos - buffer_start) + '\n';
+    					#endif
 					}
 					result += "[" + tag + "]";
 					if (from < len) {
-						result += '\n';
+    					#ifdef WINDOWS_ENABLED
+        					result += "\r\n";
+    					#else
+        					result += '\n';
+    					#endif
 					}
 
 					r_state = DOC_LINE_IN_CODEBLOCK;
@@ -5570,7 +5594,7 @@ void GDScriptParser::TreePrinter::push_line(const String &p_line) {
 	if (!p_line.is_empty()) {
 		push_text(p_line);
 	}
-	printed += "\n";
+	printed += "\r\n"; // FIX - Use CRLF for output
 	pending_indent = true;
 }
 

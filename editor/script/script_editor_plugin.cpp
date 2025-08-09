@@ -2599,12 +2599,25 @@ bool ScriptEditor::edit(const Ref<Resource> &p_resource, int p_line, int p_col, 
 			args.push_back(script_path);
 		}
 
-		if (!path.is_empty()) {
-			Error err = OS::get_singleton()->create_process(path, args);
-			if (err == OK) {
-				return false;
+		// if (!path.is_empty()) {
+		// 	Error err = OS::get_singleton()->create_process(path, args);
+		// 	if (err == OK) {
+		// 		return false;
+		// 	}
+		// }
+
+		String quoted_path = path;
+		List<String> quoted_args;
+
+		for (const String &arg : args) {
+			if (arg.find(" ") != -1) {
+				quoted_args.push_back("\"" + arg + "\"");
+			} else {
+				quoted_args.push_back(arg);
 			}
 		}
+
+		Error err = OS::get_singleton()->create_process(quoted_path, quoted_args);
 
 		ERR_PRINT("Couldn't open external text editor, falling back to the internal editor. Review your `text_editor/external/` editor settings.");
 	}
@@ -4693,7 +4706,12 @@ String ScriptEditorPlugin::get_unsaved_status(const String &p_for_scene) const {
 				message.write[i] = E.trim_suffix("(*)");
 				i++;
 			}
+// return String("\n").join(message);
+#ifdef WINDOWS_ENABLED
+			return String("\r\n").join(message);
+#else
 			return String("\n").join(message);
+#endif
 		}
 	}
 
@@ -4705,7 +4723,12 @@ String ScriptEditorPlugin::get_unsaved_status(const String &p_for_scene) const {
 		message.write[i] = E.trim_suffix("(*)");
 		i++;
 	}
+//return String("\n").join(message);
+#ifdef WINDOWS_ENABLED
+	return String("\r\n").join(message);
+#else
 	return String("\n").join(message);
+#endif
 }
 
 void ScriptEditorPlugin::save_external_data() {

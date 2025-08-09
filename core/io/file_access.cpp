@@ -494,7 +494,10 @@ Vector<String> FileAccess::get_csv_line(const String &p_delim) const {
 		if (eof_reached()) {
 			break;
 		}
-		line += get_line() + "\n";
+		//default
+		//line += get_line() + "\n";
+		//#custom
+		line += get_line() + "\r\n";
 		qc = 0;
 		for (int i = 0; i < line.length(); i++) {
 			if (line[i] == '"') {
@@ -781,8 +784,17 @@ String FileAccess::get_pascal_string() {
 	return String::utf8(cs.ptr(), sl);
 }
 
+//$ default
+// bool FileAccess::store_line(const String &p_line) {
+// 	return store_string(p_line) && store_8('\n');
+// }
+//! customised for Windows
 bool FileAccess::store_line(const String &p_line) {
-	return store_string(p_line) && store_8('\n');
+	// #ifdef WINDOWS_ENABLED
+	return store_string(p_line) && store_8('\r') && store_8('\n'); // CRLF for Windows
+	// #else
+	//     return store_string(p_line) && store_8('\n');  // LF for bad platforms
+	// #endif
 }
 
 bool FileAccess::store_csv_line(const Vector<String> &p_values, const String &p_delim) {

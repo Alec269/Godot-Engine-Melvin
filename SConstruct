@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from misc.utility.scons_hints import *
 
 EnsureSConsVersion(4, 0)

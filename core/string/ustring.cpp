@@ -825,16 +825,18 @@ String String::to_kebab_case() const {
 }
 
 String String::get_with_code_lines() const {
-	const Vector<String> lines = split("\n");
+	String normalized = this->replace("\r\n", "\n");
+	const Vector<String> lines = normalized.split("\n");
 	String ret;
 	for (int i = 0; i < lines.size(); i++) {
 		if (i > 0) {
-			ret += "\n";
+			ret += "\r\n"; // FIX - Use CRLF for output
 		}
 		ret += vformat("%4d | %s", i + 1, lines[i]);
 	}
 	return ret;
 }
+
 
 int String::get_slice_count(const String &p_splitter) const {
 	if (is_empty()) {
@@ -4275,7 +4277,7 @@ String String::dedent() const {
 			if (has_text) {
 				new_string += substr(indent_stop, i - indent_stop);
 			}
-			new_string += "\n";
+			new_string += "\r\n"; // FIX - Use CRLF for the new line character
 			has_text = false;
 			line_start = i + 1;
 			indent_stop = -1;

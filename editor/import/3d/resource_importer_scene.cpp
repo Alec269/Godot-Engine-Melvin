@@ -3306,7 +3306,8 @@ Error ResourceImporterScene::import(ResourceUID::ID p_source_id, const String &p
 		scene = post_import_script->post_import(scene);
 		if (!scene) {
 			EditorNode::add_io_error(
-					TTR("Error running post-import script:") + " " + post_import_script_path + "\n" +
+					TTR("Error running post-import script:") + " " + post_import_script_path + "\r\n" + // FIX - Use CRLF for error message
+					//change to \n if crash
 					TTR("Did you return a Node-derived object in the `_post_import()` method?"));
 			return err;
 		}

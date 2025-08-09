@@ -1947,7 +1947,14 @@ Error ResourceFormatSaverTextInstance::save(const String &p_path, const Ref<Reso
 
 				String vars;
 				VariantWriter::write_to_string(value, vars, _write_resources, this, use_compat);
-				f->store_string(name.property_name_encode() + " = " + vars + "\n");
+
+				//f->store_string(name.property_name_encode() + " = " + vars + "\n");
+				//# custom
+				// #ifdef WINDOWS_ENABLED
+				f->store_string(name.property_name_encode() + " = " + vars + "\r\n");
+				// #else
+				// 	f->store_string(name.property_name_encode() + " = " + vars + "\n");
+				// #endif
 			}
 		}
 
@@ -2026,8 +2033,10 @@ Error ResourceFormatSaverTextInstance::save(const String &p_path, const Ref<Reso
 			for (int j = 0; j < state->get_node_property_count(i); j++) {
 				String vars;
 				VariantWriter::write_to_string(state->get_node_property_value(i, j), vars, _write_resources, this, use_compat);
-
-				f->store_string(String(state->get_node_property_name(i, j)).property_name_encode() + " = " + vars + "\n");
+				//default
+				//f->store_string(String(state->get_node_property_name(i, j)).property_name_encode() + " = " + vars + "\n");
+				//#custom
+				f->store_string(String(state->get_node_property_name(i, j)).property_name_encode() + " = " + vars + "\r\n");
 			}
 
 			if (i < state->get_node_count() - 1) {

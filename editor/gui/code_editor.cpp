@@ -1249,8 +1249,12 @@ void CodeTextEditor::insert_final_newline() {
 	String line = text_editor->get_line(final_line);
 
 	// Length 0 means it's already an empty line, no need to add a newline.
-	if (line.length() > 0 && !line.ends_with("\n")) {
-		text_editor->insert_text("\n", final_line, line.length(), false);
+	// if (line.length() > 0 && !line.ends_with("\n")) {
+	// 	//default
+	// 	//text_editor->insert_text("\n", final_line, line.length(), false);
+	// }
+	if (line.length() > 0 && !line.ends_with("\r\n") && !line.ends_with("\n")) {
+		text_editor->insert_text("\r\n", final_line, line.length(), false);
 	}
 }
 

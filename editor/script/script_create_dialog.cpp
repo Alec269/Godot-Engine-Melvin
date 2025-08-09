@@ -813,12 +813,24 @@ ScriptLanguage::ScriptTemplate ScriptCreateDialog::_parse_template(const ScriptL
 				if (space_count) {
 					script_template.content += String(" ").repeat(space_count);
 				}
-				script_template.content += line.substr(i) + "\n";
+				// script_template.content += line.substr(i) + "\n";
+				// FIX:
+				#ifdef WINDOWS_ENABLED
+					script_template.content += line.substr(i) + "\r\n";
+				#else
+					script_template.content += line.substr(i) + "\n";
+				#endif
 			}
 		}
 	}
 
-	script_template.content = script_template.content.lstrip("\n");
+	// script_template.content = script_template.content.lstrip("\n");
+	// FIX:
+	#ifdef WINDOWS_ENABLED
+		script_template.content = script_template.content.lstrip("\r\n").lstrip("\n");
+	#else
+		script_template.content = script_template.content.lstrip("\n");
+	#endif
 
 	// Get name from file name if no name in meta information
 	if (script_template.name == String()) {
