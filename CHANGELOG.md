@@ -93,11 +93,16 @@ end_of_line = lf
 ### `pyproject.toml`
 
 **Line 49**
+
 ```
 builtin = ["clear", "rare"]
-ignore-words-list = ["colour", "centre", "recognise"]
 ```
 
+**Line 93**
+```
+	"centre",
+	"recognise",
+```
 
 
 ## <code style="color : lightblue">Code Files</code>
@@ -636,7 +641,102 @@ main "$@"
 
 ```
 
+### `misc\scripts\file_format.py`
 
+
+
+**At line 57** [commented out all else]
+```py
+
+import sys
+import os
+
+if len(sys.argv) < 2:
+    print("Invalid usage of file_format.py, it should be called with a path to one or multiple files.")
+    sys.exit(1)
+
+BOM = b"\xef\xbb\xbf"
+changed = []
+invalid = []
+
+def should_use_lf(file_path):
+    """Determine if a file should use LF line endings based on your requirements."""
+    file_lower = file_path.lower()
+    filename = os.path.basename(file_path)
+
+    # Force LF for these specific files and extensions
+    lf_files = [
+        '.gitignore',
+        '.gitattributes'
+    ]
+
+    lf_extensions = [
+        '.sh',
+        '.bash'
+    ]
+
+    # Check for specific filenames
+    if filename in lf_files:
+        return True
+
+    # Check for extensions
+    for ext in lf_extensions:
+        if file_lower.endswith(ext):
+            return True
+
+    return False
+
+for file in sys.argv[1:]:
+    try:
+        with open(file, "rt", encoding="utf-8") as f:
+            original = f.read()
+    except UnicodeDecodeError:
+        invalid.append(file)
+        continue
+
+    if original == "":
+        continue
+
+    # Determine line ending based on your rules
+    if should_use_lf(file):
+        EOL = "\n"
+    else:
+        EOL = "\r\n"
+
+    # Handle BOM (only for .csproj and .sln files)
+    WANTS_BOM = file.endswith((".csproj", ".sln"))
+
+    # Process the file content
+    revamp = EOL.join([line.rstrip("\n\r\t ") for line in original.splitlines(True)]).rstrip(EOL) + EOL
+    new_raw = revamp.encode(encoding="utf-8")
+
+    # Handle BOM
+    if not WANTS_BOM and new_raw.startswith(BOM):
+        new_raw = new_raw[len(BOM) :]
+    elif WANTS_BOM and not new_raw.startswith(BOM):
+        new_raw = BOM + new_raw
+
+    # Read the current file content
+    with open(file, "rb") as f:
+        old_raw = f.read()
+
+    # Only write if there are changes
+    if old_raw != new_raw:
+        changed.append(file)
+        with open(file, "wb") as f:
+            f.write(new_raw)
+
+if changed:
+    for file in changed:
+        print(f"FIXED: {file}")
+
+if invalid:
+    for file in invalid:
+        print(f"REQUIRES MANUAL CHANGES: {file}")
+    sys.exit(1)
+
+
+```
 
 
 

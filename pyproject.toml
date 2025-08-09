@@ -47,7 +47,6 @@ write-changes = true
 check-hidden = true
 quiet-level = 3
 builtin = ["clear", "rare"]
-ignore-words-list = ["colour", "centre", "recognise"]
 skip = [
 	".mailmap",
 	"*.desktop",
@@ -91,4 +90,6 @@ ignore-words-list = [
 	"textin",
 	"thirdparty",
 	"vai",
+	"centre",
+	"recognise",
 ]
