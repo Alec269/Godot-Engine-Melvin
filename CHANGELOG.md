@@ -1,5 +1,8 @@
 # Changes made in "Godot Engine for creation of Melvin 4.4.1"
 
+# Notice  
+I haven't tested it in any way other than making a game project in the built `.exe` as I don't have enough time. I would love to receive some help from any willing contributers. Only thing you need to make sure is to preserve the **CRLF** functionality of the Engine.
+
 # Files Added
 `Project-Build.md`
 
@@ -32,8 +35,7 @@ mailmap.txt
 
 ### `.gitattributes`
 
-**At line 1**
-**At line 1**
+**At line 1**  
 
 ```
 # Properly detect languages on Github
@@ -78,64 +80,44 @@ thirdparty/* linguist-vendored
 misc/msvs/* text eol=crlf
 
 # Test files where EOL matters - leave as-is
-*.test.txt -text
+*.test.txt -text  
 
-# Binary files (should never be converted)
-*.icns binary
-*.ico binary
-*.jar binary
-*.png binary
-*.ttf binary
-*.tza binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.pdf binary
-*.zip binary
-*.tar binary
-*.gz binary
-*.exe binary
-*.dll binary
-*.so binary
-*.dylib binary
-
-
-```
-
-# Binary files (should never be converted)
-*.icns binary
-*.ico binary
-*.jar binary
-*.png binary
-*.ttf binary
-*.tza binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
-*.pdf binary
-*.zip binary
-*.tar binary
-*.gz binary
-*.exe binary
-*.dll binary
-*.so binary
-*.dylib binary
+# Binary files (should never be converted)  
+*.icns binary  
+*.ico binary  
+*.jar binary  
+*.png binary  
+*.ttf binary  
+*.tza binary  
+*.jpg binary  
+*.jpeg binary  
+*.gif binary  
+*.pdf binary  
+*.zip binary  
+*.tar binary  
+*.gz binary  
+*.exe binary  
+*.dll binary  
+*.so binary  
+*.dylib binary  
+```  
 
 
-```
+
+
 
 ### `.editorconfig`
 
 **at line 5**
-```toml
-```toml
+
+```
 end_of_line = crlf
 indent_size = 3
 indent_style = tab
 ```
 
 **At line 15**
-```toml
+```
 [*.sh]
 end_of_line = lf
 [.gitattributes]
