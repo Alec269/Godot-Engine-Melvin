@@ -50,11 +50,18 @@ misc/msvs/* eol=crlf
 ### `.editorconfig`
 
 **at line 5**
-```
+```toml
 end_of_line = crlf
 indent_size = 3
 indent_style = tab
 ```
+
+**At line 15**
+```toml
+[*.sh]
+end_of_line = lf
+```
+
 ### `AUTHORS.md`
 
 **At line 32**

@@ -12,6 +12,9 @@ trim_trailing_whitespace = true
 [CHANGELOG.md]
 trim_trailing_whitespace = false
 
+[*.sh]
+end_of_line = lf
+
 [{*.py,SConstruct,SCsub}]
 indent_style = space
 
