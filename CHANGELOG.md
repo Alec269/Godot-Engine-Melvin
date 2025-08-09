@@ -717,14 +717,14 @@ for file in sys.argv[1:]:
         new_raw = BOM + new_raw
 
     # Read the current file content
-    with open(file, "rb") as f:
-        old_raw = f.read()
+    with open(file, "rb") as f_read:
+        old_raw = f_read.read()
 
     # Only write if there are changes
     if old_raw != new_raw:
         changed.append(file)
-        with open(file, "wb") as f:
-            f.write(new_raw)
+        with open(file, "wb") as f_write:
+            f_write.write(new_raw)
 
 if changed:
     for file in changed:
@@ -734,7 +734,6 @@ if invalid:
     for file in invalid:
         print(f"REQUIRES MANUAL CHANGES: {file}")
     sys.exit(1)
-
 
 ```
 
