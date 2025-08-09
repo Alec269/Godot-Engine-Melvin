@@ -35,6 +35,9 @@ mailmap.txt
 **At line 6**
 
 ```
+# Let the file_format.py script handle line endings, don't override
+* -text
+
 # Force LF for files that MUST be LF (shell scripts, some config files)
 *.sh text eol=lf
 *.bash text eol=lf
@@ -50,15 +53,6 @@ mailmap.txt
 *.h text
 *.py text
 
-#Normalize EOL for all files that Git considers text files
-* text=auto
-# Except for Windows-only / Visual Studio files
-*.bat eol=crlf
-*.sln eol=crlf
-*.csproj eol=crlf
-misc/msvs/* eol=crlf
-# And some test files where the EOL matters
-*.test.txt -text
 ```
 *because of my edits the last one could break*
 
