@@ -16,25 +16,8 @@ This is a modified version of **Godot Engine 4.4.1** that generates and preserve
 ## 🚀 Installation
 
 ### Step 1: Download
-Download the latest release from the [Releases](../../releases) page.
-
-### Step 2: Install NuGet Packages
-The custom build includes modified .NET packages that need to be installed locally.
-
-1. **Open PowerShell/Windows Terminal** in the Godot installation directory
-2. **Run the following commands**:
-
-```powershell
-dotnet nuget push Godot.NET.Sdk.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
-dotnet nuget push Godot.SourceGenerators.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
-dotnet nuget push GodotSharp.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
-dotnet nuget push GodotSharpEditor.4.4.1-Melvin.nupkg --source "$env:USERPROFILE\.nuget\packages" --skip-duplicate
-```
-
-3. **Verify Installation**: Check that packages were installed successfully
-```powershell
-Test-Path "$env:USERPROFILE\.nuget\packages\godot.net.sdk\4.4.1-melvin"
-```
+Download the latest release from the [Releases](../../releases) page.  
+Rest of the instructions have been given in the [Releases](../../releases) page.
 
 ## 🎯 Use Cases
 
